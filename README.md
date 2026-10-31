@@ -30,6 +30,10 @@ assignments/
       main.py          # example run
       run_dataset.py   # trains/evaluates mlp.py on one officially provided dataset
       data/01.../06/   # the 6 official course datasets, each with its own results
+  3/
+    solution.tex
+    solution.pdf
+    error_surface.py   # generates the error-surface plots referenced in solution.tex
 README.md
 .gitignore
 ```
@@ -45,6 +49,7 @@ PA-A's `data/`) are included, since they're the input data needed to reproduce t
 |---|---|---|
 | [01](assignments/1) | Biological principles behind technical neurons · history of neural network research · Perceptron weight derivation & linear separability · the BIAS / BIAS-weight formulation · McCulloch–Pitts threshold neurons for Boolean logic (AND, NAND, NOR) | ✅ done |
 | [02](assignments/2) | The δ-rule · counting weights (incl. BIAS) across multi-layer MLP topologies · formal analytical proof that XOR is not linearly separable · deriving the Backpropagation learning rule for a custom error function · derivatives of the logistic and tanh activation functions · **PA-A:** a from-scratch Python/numpy MLP trained with Backpropagation of Error, run on all 6 officially provided datasets (XOR variants, a 4-in/2-out logic function, a 2D regression task, and two more Boolean-style functions) | ✅ done |
+| [03](assignments/3) | Deriving Backpropagation's δ for both output and hidden layers from a custom (4th-power) error function · a fully worked numeric Backpropagation weight-update calculation · plotting the global error surface of a tanh Perceptron attempting XOR (with a ReLU/0-1 variant) · single-step vs. cumulative (batch) learning compared | ✅ done |
 
 *(This table — and the skills list below — is updated as each new assignment is completed.)*
 
@@ -72,6 +77,10 @@ PA-A's `data/`) are included, since they're the input data needed to reproduce t
 - Fitting the same from-scratch implementation to several real datasets with different
   shapes: multi-output Boolean functions, and a continuous 2D regression task evaluated
   with a proper train/test split
+- Visualizing and interpreting a neural network's error/objective surface as a function of
+  its weights (bounded vs. unbounded transfer functions, single vs. multiple minima)
+- Comparing online/stochastic vs. batch gradient-descent variants of Backpropagation of
+  Error
 
 ## Tools
 
