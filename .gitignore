@@ -1,0 +1,31 @@
+# ----- LaTeX build artifacts -----
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+build.log
+
+# ----- local preview images (generated while reviewing PDFs) -----
+assignments/**/page*.png
+
+# ----- course-provided material (copyrighted, not redistributed) -----
+slides/
+assignments/**/*.pdf
+!assignments/**/solution.pdf
+
+# ----- tooling -----
+.claude/
+
+# ----- OS -----
+.DS_Store
+Thumbs.db
