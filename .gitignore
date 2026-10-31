@@ -23,6 +23,12 @@ slides/
 assignments/**/*.pdf
 !assignments/**/solution.pdf
 
+# ----- Python -----
+__pycache__/
+*.pyc
+.venv/
+venv/
+
 # ----- tooling -----
 .claude/
 

@@ -1,0 +1,6 @@
+# Training data for the PA-A MLP demo: N=2 input columns, M=1 teacher column
+# Task: XOR -- chosen because Assignment 9 proves a simple Perceptron cannot solve it
+0 0 0
+0 1 1
+1 0 1
+1 1 0

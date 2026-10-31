@@ -25,6 +25,11 @@ assignments/
   2/
     solution.tex
     solution.pdf
+    pa_a/            # PA-A: MLP + Backpropagation of Error, implemented in Python/numpy
+      mlp.py
+      main.py
+      training_data.txt
+      test_data.txt
 README.md
 .gitignore
 ```
@@ -38,7 +43,7 @@ are tracked.
 | # | Topics covered | Status |
 |---|---|---|
 | [01](assignments/1) | Biological principles behind technical neurons · history of neural network research · Perceptron weight derivation & linear separability · the BIAS / BIAS-weight formulation · McCulloch–Pitts threshold neurons for Boolean logic (AND, NAND, NOR) | ✅ done |
-| [02](assignments/2) | The δ-rule · counting weights (incl. BIAS) across multi-layer MLP topologies · formal analytical proof that XOR is not linearly separable · deriving the Backpropagation learning rule for a custom error function · derivatives of the logistic and tanh activation functions | ✅ non-programming part done · 🔜 PA-A (programming) pending |
+| [02](assignments/2) | The δ-rule · counting weights (incl. BIAS) across multi-layer MLP topologies · formal analytical proof that XOR is not linearly separable · deriving the Backpropagation learning rule for a custom error function · derivatives of the logistic and tanh activation functions · **PA-A:** a from-scratch Python/numpy MLP trained with Backpropagation of Error on XOR | ✅ done |
 
 *(This table — and the skills list below — is updated as each new assignment is completed.)*
 
@@ -59,6 +64,10 @@ are tracked.
   relationship between them
 - Multi-layer network architecture design: counting weights (including BIAS) across
   multiple hidden layers
+- Implementing a Multi-Layer Perceptron and Backpropagation of Error from scratch in
+  Python/numpy (no neural-network libraries), including reproducible weight
+  initialization, per-layer learning rates and transfer functions, and a learning-curve
+  evaluation on held-out test data
 
 ## Tools
 
