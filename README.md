@@ -26,24 +26,25 @@ assignments/
     solution.tex
     solution.pdf
     pa_a/            # PA-A: MLP + Backpropagation of Error, implemented in Python/numpy
-      mlp.py
-      main.py
-      training_data.txt
-      test_data.txt
+      mlp.py           # the MLP + Backpropagation of Error implementation
+      main.py          # example run
+      run_dataset.py   # trains/evaluates mlp.py on one officially provided dataset
+      data/01.../06/   # the 6 official course datasets, each with its own results
 README.md
 .gitignore
 ```
 
 Lecture slides and the official assignment-sheet PDFs are course material owned by the
 instructor and are intentionally **not** version-controlled here — only my own solutions
-are tracked.
+are tracked. The small `.txt` datasets provided for the programming assignments (e.g.
+PA-A's `data/`) are included, since they're the input data needed to reproduce the results.
 
 ## Assignments
 
 | # | Topics covered | Status |
 |---|---|---|
 | [01](assignments/1) | Biological principles behind technical neurons · history of neural network research · Perceptron weight derivation & linear separability · the BIAS / BIAS-weight formulation · McCulloch–Pitts threshold neurons for Boolean logic (AND, NAND, NOR) | ✅ done |
-| [02](assignments/2) | The δ-rule · counting weights (incl. BIAS) across multi-layer MLP topologies · formal analytical proof that XOR is not linearly separable · deriving the Backpropagation learning rule for a custom error function · derivatives of the logistic and tanh activation functions · **PA-A:** a from-scratch Python/numpy MLP trained with Backpropagation of Error on XOR | ✅ done |
+| [02](assignments/2) | The δ-rule · counting weights (incl. BIAS) across multi-layer MLP topologies · formal analytical proof that XOR is not linearly separable · deriving the Backpropagation learning rule for a custom error function · derivatives of the logistic and tanh activation functions · **PA-A:** a from-scratch Python/numpy MLP trained with Backpropagation of Error, run on all 6 officially provided datasets (XOR variants, a 4-in/2-out logic function, a 2D regression task, and two more Boolean-style functions) | ✅ done |
 
 *(This table — and the skills list below — is updated as each new assignment is completed.)*
 
@@ -68,6 +69,9 @@ are tracked.
   Python/numpy (no neural-network libraries), including reproducible weight
   initialization, per-layer learning rates and transfer functions, and a learning-curve
   evaluation on held-out test data
+- Fitting the same from-scratch implementation to several real datasets with different
+  shapes: multi-output Boolean functions, and a continuous 2D regression task evaluated
+  with a proper train/test split
 
 ## Tools
 

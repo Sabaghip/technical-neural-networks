@@ -1,0 +1,17 @@
+dataset: PA-A_training_data_03.txt
+architecture: 4-8-2   transfer=['tanh', 'tanh']   lr=[0.3, 0.3]   steps=8000   seed=10
+train patterns: 11   test patterns: 11
+
+Testing (no further weight changes):
+  input=[0.1 0.1 0.1 0.1]  teacher=[-0.7 -0.7]  output=[-0.694 -0.703]  error=0.000022
+  input=[0.1 0.1 0.1 0.9]  teacher=[-0.7  0.8]  output=[-0.7081  0.7985]  error=0.000034
+  input=[0.1 0.1 0.9 0.1]  teacher=[0.8 0.8]  output=[0.7928 0.8061]  error=0.000044
+  input=[0.1 0.1 0.9 0.9]  teacher=[-0.7 -0.7]  output=[-0.6844 -0.71  ]  error=0.000172
+  input=[0.1 0.9 0.1 0.1]  teacher=[ 0.8 -0.7]  output=[ 0.7846 -0.6929]  error=0.000144
+  input=[0.1 0.9 0.1 0.9]  teacher=[-0.7  0.8]  output=[-0.686   0.7948]  error=0.000111
+  input=[0.1 0.9 0.9 0.1]  teacher=[0.8 0.8]  output=[0.8125 0.791 ]  error=0.000118
+  input=[0.1 0.9 0.9 0.9]  teacher=[-0.7 -0.7]  output=[-0.7235 -0.6901]  error=0.000325
+  input=[0.9 0.1 0.1 0.1]  teacher=[0.8 0.8]  output=[0.8062 0.7956]  error=0.000029
+  input=[0.9 0.1 0.9 0.9]  teacher=[-0.7  0.8]  output=[-0.69    0.7962]  error=0.000057
+  input=[0.9 0.1 0.9 0.1]  teacher=[-0.7 -0.7]  output=[-0.6932 -0.7032]  error=0.000028
+mean test error: 0.000099

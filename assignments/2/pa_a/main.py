@@ -1,18 +1,7 @@
-"""
-PA-A: trains a Multi-Layer-Perceptron with Backpropagation of Error on
-training_data.txt and evaluates it on test_data.txt.
-
-Demo task: XOR. Chosen because Assignment 9 proves a single-layer Perceptron
-cannot solve it -- this demonstrates a 2-4-1 MLP (one hidden layer) can.
-
-Usage:  python3 main.py
-Needs:  numpy, matplotlib
-"""
-
 import numpy as np
 import matplotlib
 
-matplotlib.use("Agg")  # headless: just save a PNG, no display needed
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from mlp import MLP
@@ -31,11 +20,11 @@ def load_patterns(path):
     return np.array(rows)
 
 
-# ---- Network structure & hyperparameters (set directly in source, as allowed) ----
-LAYER_SIZES = [2, 4, 1]                 # N-H-M = 2-4-1
+# Network structure & hyperparameters
+LAYER_SIZES = [2, 4, 1]              
 TRANSFER_NAMES = ["tanh", "logistic"]   # hidden layer: tanh, output layer: logistic
 LEARNING_RATES = [0.5, 0.5]             # one eta per weight layer
-SEED = 42
+SEED = 10
 N_TRAINING_STEPS = 5000
 
 N_INPUTS = LAYER_SIZES[0]
@@ -49,10 +38,10 @@ net = MLP(LAYER_SIZES, TRANSFER_NAMES, LEARNING_RATES, SEED)  # step 1: initiali
 
 learning_curve = []
 for step in range(N_TRAINING_STEPS):
-    p = net.rng.integers(0, len(X_train))         # step 2: pick a pattern p (reproducible)
-    error = net.train_step(X_train[p], Y_train[p])  # steps 3-6: forward/compare/backward/update
+    p = net.rng.integers(0, len(X_train))  # step 2: pick a pattern p
+    error = net.train_step(X_train[p], Y_train[p])  # steps 3-6: forward-compare-backward-update
     learning_curve.append(error)
-    # step 7: ready? -- stop once N_TRAINING_STEPS is reached (loop end)
+    # step 7: stop once N_TRAINING_STEPS is reached
 
 with open("learning_curve.txt", "w") as f:
     f.write("# training step    quadratic error E\n")

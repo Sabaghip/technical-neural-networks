@@ -1,0 +1,76 @@
+dataset: PA-A_training_data_04.txt
+architecture: 2-12-1   transfer=['tanh', 'tanh']   lr=[0.05, 0.05]   steps=40000   seed=10
+train patterns: 280   test patterns: 70
+
+Testing (no further weight changes):
+  input=[-0.9091  2.    ]  teacher=[-0.2185]  output=[-0.239]  error=0.000209
+  input=[0.3838 2.    ]  teacher=[-0.1632]  output=[-0.1925]  error=0.000430
+  input=[0.7071 0.6667]  teacher=[0.0763]  output=[0.0192]  error=0.001630
+  input=[ 0.7879 -1.    ]  teacher=[0.4158]  output=[0.4466]  error=0.000475
+  input=[-1.4748 -1.    ]  teacher=[0.4693]  output=[0.4082]  error=0.001867
+  input=[-1.9596 -0.6667]  teacher=[0.4831]  output=[0.4812]  error=0.000002
+  input=[0.9899 2.    ]  teacher=[-0.4958]  output=[-0.5026]  error=0.000023
+  input=[1.8788 1.3333]  teacher=[-0.5703]  output=[-0.5333]  error=0.000686
+  input=[ 0.9495 -0.3333]  teacher=[0.3982]  output=[0.4093]  error=0.000062
+  input=[-0.6667 -1.    ]  teacher=[0.0355]  output=[0.0545]  error=0.000180
+  input=[ 0.8687 -1.    ]  teacher=[0.4541]  output=[0.4831]  error=0.000419
+  input=[-0.5051  1.    ]  teacher=[-0.2555]  output=[-0.2815]  error=0.000339
+  input=[-0.9899  1.    ]  teacher=[-0.5016]  output=[-0.5323]  error=0.000472
+  input=[0.303 1.   ]  teacher=[0.0474]  output=[0.0043]  error=0.000927
+  input=[-1.0707 -0.6667]  teacher=[0.0873]  output=[0.0657]  error=0.000232
+  input=[-1.7576  1.3333]  teacher=[-0.5373]  output=[-0.517]  error=0.000206
+  input=[-1.9192 -0.3333]  teacher=[0.3554]  output=[0.32]  error=0.000627
+  input=[0.0202 1.6667]  teacher=[-0.0014]  output=[-0.0102]  error=0.000039
+  input=[ 0.8283 -0.6667]  teacher=[0.4363]  output=[0.4958]  error=0.001770
+  input=[-0.8687  1.    ]  teacher=[-0.4541]  output=[-0.4953]  error=0.000845
+  input=[ 0.3434 -1.    ]  teacher=[0.16]  output=[0.1522]  error=0.000030
+  input=[ 0.6667 -1.    ]  teacher=[0.3506]  output=[0.3764]  error=0.000334
+  input=[ 0.303 -1.   ]  teacher=[0.1373]  output=[0.1276]  error=0.000047
+  input=[2.     1.6667]  teacher=[-0.4721]  output=[-0.5321]  error=0.001799
+  input=[ 1.3131 -0.3333]  teacher=[0.3233]  output=[0.3206]  error=0.000004
+  input=[-1.1111  0.    ]  teacher=[-0.2386]  output=[-0.234]  error=0.000010
+  input=[1.798  1.6667]  teacher=[-0.5543]  output=[-0.4768]  error=0.003009
+  input=[ 0.0202 -1.    ]  teacher=[0.0068]  output=[0.0119]  error=0.000013
+  input=[-0.5455  0.6667]  teacher=[-0.309]  output=[-0.3482]  error=0.000767
+  input=[0.0202 0.    ]  teacher=[0.0121]  output=[0.0046]  error=0.000028
+  input=[1.9192 1.    ]  teacher=[-0.5501]  output=[-0.5664]  error=0.000134
+  input=[ 1.9596 -0.6667]  teacher=[0.1523]  output=[0.2002]  error=0.001146
+  input=[2. 1.]  teacher=[-0.5401]  output=[-0.6042]  error=0.002053
+  input=[-1.8384 -0.3333]  teacher=[0.3272]  output=[0.284]  error=0.000933
+  input=[-0.4242  1.    ]  teacher=[-0.2072]  output=[-0.222]  error=0.000110
+  input=[0.1818 0.3333]  teacher=[0.0944]  output=[0.1253]  error=0.000477
+  input=[0.2222 0.3333]  teacher=[0.1124]  output=[0.1407]  error=0.000403
+  input=[-1.1111 -0.3333]  teacher=[-0.0678]  output=[-0.0854]  error=0.000156
+  input=[ 1.2727 -0.3333]  teacher=[0.3386]  output=[0.3368]  error=0.000002
+  input=[-2.      0.6667]  teacher=[-0.1283]  output=[-0.179]  error=0.001281
+  input=[ 1.9192 -0.3333]  teacher=[-0.0085]  output=[0.0152]  error=0.000280
+  input=[-2.  0.]  teacher=[0.227]  output=[0.194]  error=0.000545
+  input=[-1.8788 -1.    ]  teacher=[0.5521]  output=[0.5714]  error=0.000185
+  input=[-1.2323 -0.3333]  teacher=[-0.0029]  output=[-0.0281]  error=0.000317
+  input=[1.6768 0.6667]  teacher=[-0.4165]  output=[-0.3739]  error=0.000908
+  input=[ 0.1818 -0.6667]  teacher=[0.096]  output=[0.0965]  error=0.000000
+  input=[0.101 0.   ]  teacher=[0.0602]  output=[0.0591]  error=0.000001
+  input=[ 0.1818 -0.3333]  teacher=[0.1072]  output=[0.0854]  error=0.000239
+  input=[-0.0606  1.6667]  teacher=[0.0013]  output=[0.0032]  error=0.000002
+  input=[1.9596 0.6667]  teacher=[-0.4831]  output=[-0.4957]  error=0.000079
+  input=[-1.9596  0.    ]  teacher=[0.2105]  output=[0.176]  error=0.000593
+  input=[-0.9495  1.    ]  teacher=[-0.4873]  output=[-0.522]  error=0.000603
+  input=[-1.8384  0.6667]  teacher=[-0.2248]  output=[-0.259]  error=0.000585
+  input=[-1.1111 -1.    ]  teacher=[0.2766]  output=[0.2336]  error=0.000925
+  input=[-0.0606  0.    ]  teacher=[-0.0363]  output=[-0.0513]  error=0.000113
+  input=[0.3838 1.3333]  teacher=[-0.0328]  output=[-0.0996]  error=0.002235
+  input=[ 0.0202 -0.3333]  teacher=[0.0115]  output=[-0.027]  error=0.000744
+  input=[ 0.2222 -1.    ]  teacher=[0.0942]  output=[0.0841]  error=0.000051
+  input=[-1.7576 -0.6667]  teacher=[0.4443]  output=[0.4019]  error=0.000897
+  input=[-0.0606 -0.3333]  teacher=[-0.0336]  output=[-0.0775]  error=0.000967
+  input=[-0.5859  2.    ]  teacher=[-0.0518]  output=[-0.0392]  error=0.000079
+  input=[0.1414 2.    ]  teacher=[-0.0457]  output=[-0.0701]  error=0.000299
+  input=[-0.1414 -0.3333]  teacher=[-0.0752]  output=[-0.1218]  error=0.001084
+  input=[ 0.3838 -0.6667]  teacher=[0.2158]  output=[0.2458]  error=0.000451
+  input=[1.0303 2.    ]  teacher=[-0.5113]  output=[-0.5164]  error=0.000013
+  input=[ 0.9899 -0.6667]  teacher=[0.4756]  output=[0.5213]  error=0.001044
+  input=[ 1.9596 -0.3333]  teacher=[-0.0308]  output=[-0.0049]  error=0.000335
+  input=[ 0.4242 -0.6667]  teacher=[0.2398]  output=[0.276]  error=0.000658
+  input=[-1.4748  0.3333]  teacher=[-0.2486]  output=[-0.2563]  error=0.000030
+  input=[-1.9192 -0.6667]  teacher=[0.4791]  output=[0.4666]  error=0.000078
+mean test error: 0.000550

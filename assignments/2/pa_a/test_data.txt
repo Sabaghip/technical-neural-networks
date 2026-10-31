@@ -1,6 +1,0 @@
-# Test data (same format as training_data.txt)
-# XOR has only 4 possible input combinations, so we test on all of them
-0 0 0
-0 1 1
-1 0 1
-1 1 0

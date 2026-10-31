@@ -1,0 +1,10 @@
+dataset: PA-A_training_data_02.txt
+architecture: 2-4-1   transfer=['tanh', 'tanh']   lr=[0.5, 0.5]   steps=5000   seed=10
+train patterns: 4   test patterns: 4
+
+Testing (no further weight changes):
+  input=[0. 0.]  teacher=[-0.8]  output=[-0.8]  error=0.000000
+  input=[0. 1.]  teacher=[0.8]  output=[0.8]  error=0.000000
+  input=[1. 0.]  teacher=[0.8]  output=[0.8]  error=0.000000
+  input=[1. 1.]  teacher=[-0.8]  output=[-0.8]  error=0.000000
+mean test error: 0.000000
