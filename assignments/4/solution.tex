@@ -1,0 +1,45 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\begin{center}
+{\large Technical Neural Networks Assignment Sheet 4}\\[4pt]
+{\bfseries Names: Mohamadhosein Sabaghi (50547423)}
+\end{center}
+
+\section*{Assignment 16}
+
+With single-step (online) learning, one pattern $p$ is picked and the weights are updated right
+after it, so the plotted error ${}^pE$ is the error of whichever single pattern was just shown --
+not the total error over all patterns. That makes the curve inherently noisy: it jumps up and
+down from step to step depending on how well the network currently happens to fit that
+particular pattern, while only the underlying \emph{trend} decreases smoothly. Typical shape:
+
+\begin{itemize}
+  \item a fast drop at the very start, while the (randomly initialized) weights are still far from
+  any reasonable solution;
+  \item a longer middle phase where the trend keeps decreasing, but individual steps fluctuate a
+  lot around it -- "hard" or just-updated-against patterns still produce temporary error spikes;
+  \item a late phase where the trend flattens out near a low floor (ideally near $0$, or above $0$ if
+  the task isn't perfectly learnable), with the step-to-step noise still visible on top of it --
+  single-step learning never fully smooths out, unlike cumulative/batch learning (assignment 15).
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.85\textwidth]{learning_curve_typical.png}
+\end{center}
+
+This matches what we actually observed empirically with our own single-step-trained MLPs in
+PA-A (e.g.\ \texttt{assignments/2/pa\_a/data/01/learning\_curve.png}): a steep early drop followed
+by a noisy decreasing trend that settles near a low error floor.
+
+\end{document}

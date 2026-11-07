@@ -50,6 +50,7 @@ PA-A's `data/`) are included, since they're the input data needed to reproduce t
 | [01](assignments/1) | Biological principles behind technical neurons · history of neural network research · Perceptron weight derivation & linear separability · the BIAS / BIAS-weight formulation · McCulloch–Pitts threshold neurons for Boolean logic (AND, NAND, NOR) | ✅ done |
 | [02](assignments/2) | The δ-rule · counting weights (incl. BIAS) across multi-layer MLP topologies · formal analytical proof that XOR is not linearly separable · deriving the Backpropagation learning rule for a custom error function · derivatives of the logistic and tanh activation functions · **PA-A:** a from-scratch Python/numpy MLP trained with Backpropagation of Error, run on all 6 officially provided datasets (XOR variants, a 4-in/2-out logic function, a 2D regression task, and two more Boolean-style functions) | ✅ done |
 | [03](assignments/3) | Deriving Backpropagation's δ for both output and hidden layers from a custom (4th-power) error function · a fully worked numeric Backpropagation weight-update calculation · plotting the global error surface of a tanh Perceptron attempting XOR (with a ReLU/0-1 variant) · single-step vs. cumulative (batch) learning compared | ✅ done |
+| [04](assignments/4) | Describing and plotting a typical single-step learning curve for Backpropagation of Error | 🔜 in progress |
 
 *(This table — and the skills list below — is updated as each new assignment is completed.)*
 
