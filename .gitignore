@@ -22,7 +22,7 @@ assignments/**/page*.png
 slides/
 assignments/**/*.pdf
 !assignments/**/solution.pdf
-
+!assignments/**/assignment.pdf
 # ----- Python -----
 __pycache__/
 *.pyc
