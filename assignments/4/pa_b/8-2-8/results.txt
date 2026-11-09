@@ -1,0 +1,12 @@
+8-2-8 encoder-decoder after 200000 training steps
+
+pattern 0: output = [0.924, 0.045, 0.057, 0.0, 0.0, 0.0, 0.0, 0.0]
+pattern 1: output = [0.056, 0.925, 0.0, 0.0, 0.0, 0.054, 0.0, 0.0]
+pattern 2: output = [0.058, 0.0, 0.925, 0.0, 0.0, 0.0, 0.066, 0.0]
+pattern 3: output = [0.0, 0.0, 0.0, 0.918, 0.064, 0.047, 0.0, 0.0]
+pattern 4: output = [0.0, 0.0, 0.0, 0.054, 0.926, 0.0, 0.0, 0.065]
+pattern 5: output = [0.0, 0.054, 0.0, 0.055, 0.0, 0.928, 0.0, 0.0]
+pattern 6: output = [0.0, 0.0, 0.047, 0.0, 0.0, 0.0, 0.911, 0.065]
+pattern 7: output = [0.0, 0.0, 0.0, 0.0, 0.051, 0.0, 0.065, 0.905]
+
+max abs error over all patterns/outputs: 0.0947

@@ -1,0 +1,5 @@
+64-6-64 encoder-decoder after 700000 training steps
+
+(N=64 patterns -- see io_heatmap.png / results.txt for all outputs)
+
+max abs error over all patterns/outputs: 0.0854
