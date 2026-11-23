@@ -44,6 +44,13 @@ assignments/
   5/
     solution.tex
     solution.pdf
+  6/
+    solution.tex
+    solution.pdf
+    pa_c/              # PA-C: RBF-Network, implemented in Python/numpy
+      rbf.py             # the RBF-Net implementation (k-means centers + gradient-descent weights)
+      main.py            # trains/evaluates on PA-A's regression dataset
+      pinv_compare.py    # EXTRA: gradient descent vs. Moore-Penrose-Pseudo-Inverse
 README.md
 .gitignore
 ```
@@ -62,6 +69,7 @@ PA-A's `data/`) are included, since they're the input data needed to reproduce t
 | [03](assignments/3) | Deriving Backpropagation's δ for both output and hidden layers from a custom (4th-power) error function · a fully worked numeric Backpropagation weight-update calculation · plotting the global error surface of a tanh Perceptron attempting XOR (with a ReLU/0-1 variant) · single-step vs. cumulative (batch) learning compared | ✅ done |
 | [04](assignments/4) | Typical single-step learning curve · the effect of linear vs. logarithmic axis scaling on reading a learning curve · why MLPs can solve the 8-3-8 and 8-2-8 encoder-decoder tasks but not 8-1-8 · deriving the weight-decay (L2-regularized) learning rule · deriving the input-space gradient of the error for gradient-based input optimization · **PA-B:** trained the same from-scratch MLP on 8-3-8, 8-2-8 and 64-6-64 encoder-decoder tasks, empirically confirming the binary-code / convex-polygon arguments from assignment 18 | ✅ done |
 | [05](assignments/5) | Explaining Resilient Propagation (RPROP) with literature citation · single-step vs. cumulative learning (revisited) · why a 1/t learning-rate schedule can stall training · proving an all-identity MLP of any depth collapses to a single 2-layer Perceptron (vector-matrix proof) · overfitting & weight decay · generalization with an original example | ✅ done |
+| [06](assignments/6) | MLP vs. RBF-network comparison · the three philosophies for setting RBF centers/widths · counting multiplications for the Moore-Penrose-Pseudo-Inverse weight solution · proposing AI-disclosure reporting aspects · extending RBF neurons from radial to elliptical (anisotropic) characteristics · deriving RBF gradients w.r.t. centers and widths · **PA-C:** a from-scratch RBF-Net (k-means centers, gradient-descent weights), empirically confirming the Moore-Penrose-Pseudo-Inverse theory from assignment 29 | ✅ done |
 
 *(This table — and the skills list below — is updated as each new assignment is completed.)*
 
@@ -108,6 +116,12 @@ PA-A's `data/`) are included, since they're the input data needed to reproduce t
   equivalent to a single-layer Perceptron
 - Overfitting, generalization and weight decay as practical training concerns, illustrated
   with an original example
+- Comparing MLPs and RBF networks conceptually (local vs. global receptive fields, linear
+  vs. nonlinear training, curse of dimensionality) and implementing an RBF-Net from scratch,
+  including k-means-based center placement and an empirical gradient-descent-vs-pseudoinverse
+  comparison
+- Deriving gradients of a Gaussian-RBF error function with respect to centers and widths, and
+  proposing a formula-based anisotropic (elliptical) RBF extension
 
 ## Tools
 

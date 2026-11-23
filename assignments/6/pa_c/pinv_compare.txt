@@ -1,0 +1,14 @@
+RBF-Net 2-20-1: gradient descent vs. Moore-Penrose-Pseudo-Inverse
+
+P = K  (P=20, K=20):
+  gradient descent (60000 steps): mean test error = 0.010398, time = 1.206s
+  Moore-Penrose-Pseudo-Inverse:        mean test error = 0.010398, time = 0.00043s
+
+P slightly > K  (P=25, K=20):
+  gradient descent (60000 steps): mean test error = 0.009392, time = 1.223s
+  Moore-Penrose-Pseudo-Inverse:        mean test error = 0.009689, time = 0.00034s
+
+P >> K  (P=280, K=20):
+  gradient descent (60000 steps): mean test error = 0.000457, time = 1.219s
+  Moore-Penrose-Pseudo-Inverse:        mean test error = 0.000442, time = 0.00212s
+

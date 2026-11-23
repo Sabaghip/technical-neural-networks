@@ -1,0 +1,227 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\begin{center}
+{\large Technical Neural Networks Assignment Sheet 6}\\[4pt]
+{\bfseries Names: Mohamadhosein Sabaghi (50547423)}
+\end{center}
+
+{\small (Programming Assignment PA-C is solved separately.)}
+
+\section*{Assignment 27}
+
+\textbf{Common aspects.}
+\begin{itemize}
+  \item Both are feed-forward networks trained in a supervised way.
+  \item Both are universal function approximators, usable for regression and classification.
+  \item Both compute their output from simple processing units connected by weights, organized
+  in layers (input $\to$ hidden/RBF $\to$ output).
+\end{itemize}
+
+\textbf{Different aspects.}
+\begin{itemize}
+  \item \textbf{Depth/structure:} RBF networks always have exactly 3 layers; MLPs can have 2 or
+  more layers.
+  \item \textbf{Hidden-unit response:} MLP hidden neurons apply a transfer function to a
+  \emph{weighted sum} of inputs -- their response extends along a hyperplane, i.e.\ it is
+  \emph{global}. RBF neurons apply a unimodal function to the \emph{distance to a center} -- their
+  response is \emph{local}, decaying to $\approx 0$ away from their own center.
+  \item \textbf{Output layer:} RBF output neurons are always linear (identity transfer function,
+  just a weighted sum); MLP layers (including usually the output) are typically nonlinear.
+  \item \textbf{Training:} RBF training splits into two simpler, largely independent
+  sub-problems -- setting the centers/widths, then solving for the output weights, which is a
+  \emph{linear} least-squares problem (exactly solvable, e.g.\ via the Moore-Penrose
+  pseudo-inverse, assignment 29). MLP training requires nonlinear Backpropagation of Error through
+  every layer at once -- a nonconvex problem with local minima and more hyperparameter tuning.
+  \item \textbf{Interpretability:} RBF centers are interpretable as prototype points in input
+  space; MLP hidden units (hyperplanes) are less directly interpretable.
+  \item \textbf{Scaling with input dimension:} covering an $N$-dimensional space with local
+  receptive fields needs a number of RBF neurons that grows rapidly with $N$ (curse of
+  dimensionality hits RBF harder); MLP hyperplane-based hidden units scale better to high $N$.
+  \item \textbf{Extrapolation:} RBF outputs fall back to $\approx 0$ (or BIAS) far from all
+  centers -- safe but uninformative outside the training range. MLP units don't vanish away from
+  training data, so they can extrapolate further, for better or worse.
+  \item \textbf{Depth / hierarchical features:} MLPs can stack many hidden layers for hierarchical
+  feature learning; RBF networks are inherently shallow.
+\end{itemize}
+
+\textbf{Applications.} RBF networks suit low-to-moderate-dimensional function
+approximation/interpolation with clear local cluster structure, and settings needing fast, reliable
+training with few hyperparameters. MLPs suit high-dimensional inputs (e.g.\ images), large and
+complex datasets, and tasks that benefit from deep hierarchical feature extraction or good
+extrapolation behavior.
+
+\section*{Assignment 28}
+
+\begin{itemize}
+  \item \textbf{Completely Uninformed:} with little or no prior knowledge about the data, the
+  input space is simply covered \emph{uniformly} with centers (e.g.\ a regular grid, or randomly
+  placed with even density).
+  \item \textbf{Input Data Driven:} centers are positioned/adjusted according to the
+  \emph{distribution of the input data itself}, independent of the teacher values. Variants:
+  heuristically picking a subset of the training points as centers, unsupervised clustering
+  (e.g.\ $k$-means) to find data-driven centers, or self-organized approaches (e.g.\ a
+  self-organizing map) producing the centers.
+  \item \textbf{Error Driven:} centers (and widths) are adjusted with respect to the
+  \emph{output error}, i.e.\ supervised learning -- e.g.\ gradient descent on the global error $F$,
+  using exactly the $\partial F/\partial C_k$ and $\partial F/\partial s_k$ derived in
+  assignment 32.
+\end{itemize}
+
+\section*{Assignment 29}
+
+Fixed centers/widths, so only the $K{\times}M$ output weight matrix $\mathbf G$ (entries
+$g_{k,m}$; the lecture calls the same object $\mathbf W$) must be found, from the $P{\times}K$
+matrix $\mathbf R$ of RBF outputs ($R_{pk}={}^pr_k$) via
+\[
+  \mathbf R^{+} = (\mathbf R^{T}\mathbf R)^{-1}\mathbf R^{T}, \qquad \mathbf G = \mathbf R^{+}\hat{\mathbf Y}
+\]
+Counting multiplications for each step (assuming Gauss--Jordan elimination for the matrix
+inverse, which needs $K^3$ multiplications for a $K{\times}K$ matrix):
+
+\begin{enumerate}
+  \item \textbf{Build $\mathbf R$} ($P{\times}K$ entries): each entry ${}^pr_k$ needs the squared
+  Euclidean distance over $N$ dimensions ($N$ multiplications) plus one multiplication to divide
+  by $2s_k^2$: $N+1$ multiplications per entry.
+  \[
+    P\cdot K\cdot(N+1)
+  \]
+  \item \textbf{$\mathbf R^{T}\mathbf R$} ($K{\times}K$ result, each entry a dot product of length
+  $P$):
+  \[
+    K^2\cdot P
+  \]
+  \item \textbf{Invert the $K{\times}K$ matrix} (Gauss--Jordan):
+  \[
+    K^3
+  \]
+  \item \textbf{$\mathbf R^{+}=(\mathbf R^{T}\mathbf R)^{-1}\mathbf R^{T}$} ($K{\times}P$ result,
+  each entry a dot product of length $K$):
+  \[
+    K\cdot P\cdot K = K^2\cdot P
+  \]
+  \item \textbf{$\mathbf G=\mathbf R^{+}\hat{\mathbf Y}$} ($K{\times}M$ result, each entry a dot
+  product of length $P$):
+  \[
+    K\cdot M\cdot P
+  \]
+\end{enumerate}
+
+Summing all five steps:
+\[
+  P K(N{+}1) + K^2P + K^3 + K^2P + KMP = PK(N{+}1{+}2K{+}M) + K^3
+\]
+\[
+  \boxed{\text{total multiplications} = P\,K\,(N+2K+M+1) + K^3}
+\]
+
+\section*{Assignment 30}
+
+Aspects to report when an AI system was used, extending the set from the previous sheets:
+\begin{enumerate}
+  \item Which AI system(s) were used (name, and model/version if known).
+  \item Which prompt(s) were used (verbatim, or a close summary).
+  \item What percentage of the final solution the AI contributed.
+  \item Whether/why/when/how often the AI session had to be reset to get a usable answer.
+  \item Which AI-generated answers were discarded, and why.
+  \item \textbf{How did you check that the AI answer is correct?} (e.g.\ hand-recomputation,
+  cross-checking against the lecture slides or the primary literature, running/testing code,
+  consulting a second independent source.)
+  \item \emph{(proposed additions)} Which parts of the AI's draft were edited or rewritten by hand
+  afterwards, and why.
+  \item Any limitations or open uncertainties that remain even after verification.
+  \item Whether the AI was given the course material (slides/assignment text) directly, or
+  answered purely from its own general training knowledge -- relevant for judging reliability.
+\end{enumerate}
+
+\section*{Assignment 31}
+
+\textbf{AI use:} I used Claude (Anthropic) to work through this part, as the sheet requires.
+Prompt: the assignment text, asking for a formula-based proposal to extend RBF neurons from radial
+to elliptical (axis-dependent) characteristics. AI contribution: the formulas and explanation below
+are as given by the AI; I verified them by checking that setting all $s_{nk}$ equal collapses the
+elliptical formula back to the standard radial/Gaussian one exactly, and that the level sets
+$z_k=\text{const}$ are indeed axis-aligned ellipses. No re-prompting or discarded answers were
+needed. (Aspects reported per assignment 30, items 1-6 above.)
+
+\textbf{What changes.} Standard RBF neurons use one shared width $s_k$ for the squared distance in
+\emph{all} directions equally:
+\[
+  d_k^2 = \|{}^p\mathbf X - \mathbf C_k\|^2 = \sum_{n=1}^N ({}^px_n-c_{nk})^2, \qquad
+  z_k = \exp\!\left(-\frac{d_k^2}{2s_k^2}\right)
+\]
+so level sets of $z_k$ are perfect (hyper-)spheres around $\mathbf C_k$. To get an elliptical
+characteristic, give every RBF neuron $k$ \emph{one width per input axis},
+$s_{1k},\dots,s_{Nk}$, instead of a single $s_k$, and replace the distance term by a per-axis
+weighted sum:
+\[
+  \boxed{d_k^2 = \sum_{n=1}^N \frac{({}^px_n-c_{nk})^2}{s_{nk}^2}}, \qquad
+  z_k = \exp\!\left(-\tfrac12\, d_k^2\right) = \exp\!\left(-\tfrac12\sum_{n=1}^N \frac{({}^px_n-c_{nk})^2}{s_{nk}^2}\right)
+\]
+Equivalently, in matrix form with $\mathbf S_k=\mathrm{diag}(s_{1k}^2,\dots,s_{Nk}^2)$:
+\[
+  z_k = \exp\!\left(-\tfrac12 ({}^p\mathbf X-\mathbf C_k)^T \mathbf S_k^{-1} ({}^p\mathbf X-\mathbf C_k)\right)
+\]
+Level sets $z_k=\text{const}$ are now axis-aligned ellipses/ellipsoids, with semi-axis $n$
+proportional to $s_{nk}$: a direction with a larger $s_{nk}$ stretches the ellipse along that axis.
+Setting all $s_{nk}=s_k$ recovers the original radial formula exactly, so this is a strict
+generalization.
+
+\textbf{What part of the RBF approach needs to change:} each RBF neuron now needs $N$ width
+parameters instead of $1$ (i.e.\ $K\!\cdot\!N$ widths in total instead of $K$), and the distance
+formula inside the transfer function changes as above. If widths are adjusted error-driven (gradient
+descent, assignment 28/32), the single derivative $\partial F/\partial s_k$ is replaced by $N$
+separate partial derivatives $\partial F/\partial s_{nk}$, one per axis. Nothing else about the
+network (3-layer structure, linear output layer, centers $\mathbf C_k$) needs to change. (A further
+generalization -- not required here -- replaces the diagonal $\mathbf S_k$ with a full
+symmetric positive-definite matrix $\boldsymbol\Sigma_k$, allowing ellipses rotated at arbitrary
+angles, not just axis-aligned ones.)
+
+\section*{Assignment 32}
+
+\[
+  F = \frac12\sum_{p=1}^P\sum_{m=1}^M\left({}^p\hat y_m-{}^py_m\right)^2, \qquad
+  z_k({}^p\mathbf X) = \exp\!\left(-\frac{\|{}^p\mathbf X-\mathbf C_k\|^2}{2s_k^2}\right), \qquad
+  {}^py_m = \sum_{k=1}^K w_{km}\,z_k({}^p\mathbf X)
+\]
+
+Write ${}^p\delta_m:={}^p\hat y_m-{}^py_m$ (output layer is linear, so $f'=1$, no extra factor).
+Since ${}^py_m$ depends on $z_k({}^p\mathbf X)$ only through $w_{km}$:
+\[
+  \frac{\partial F}{\partial z_k({}^p\mathbf X)} = \sum_{m=1}^M {}^p\delta_m\cdot(-w_{km}) = -\sum_{m=1}^M {}^p\delta_m\,w_{km}
+\]
+
+\textbf{Derivative w.r.t.\ $\mathbf C_k$.} With $\|{}^p\mathbf X-\mathbf C_k\|^2=\sum_n({}^px_n-c_{nk})^2$:
+\[
+  \frac{\partial z_k({}^p\mathbf X)}{\partial c_{nk}} = z_k({}^p\mathbf X)\cdot\frac{{}^px_n-c_{nk}}{s_k^2}
+  \quad\Longrightarrow\quad
+  \frac{\partial z_k({}^p\mathbf X)}{\partial \mathbf C_k} = z_k({}^p\mathbf X)\cdot\frac{{}^p\mathbf X-\mathbf C_k}{s_k^2}
+\]
+Chaining through all $P$ patterns:
+\[
+  \boxed{\frac{\partial F}{\partial \mathbf C_k} = -\sum_{p=1}^{P}\left(\sum_{m=1}^M {}^p\delta_m\,w_{km}\right) z_k({}^p\mathbf X)\,\frac{{}^p\mathbf X-\mathbf C_k}{s_k^2}}
+\]
+
+\textbf{Derivative w.r.t.\ $s_k$.}
+\[
+  \frac{\partial z_k({}^p\mathbf X)}{\partial s_k} = z_k({}^p\mathbf X)\cdot\frac{\|{}^p\mathbf X-\mathbf C_k\|^2}{s_k^3}
+\]
+\[
+  \boxed{\frac{\partial F}{\partial s_k} = -\sum_{p=1}^{P}\left(\sum_{m=1}^M {}^p\delta_m\,w_{km}\right) z_k({}^p\mathbf X)\,\frac{\|{}^p\mathbf X-\mathbf C_k\|^2}{s_k^3}}
+\]
+
+Both gradients have the same structure as standard Backpropagation: a backpropagated error term
+$\sum_m {}^p\delta_m w_{km}$ (analogous to a hidden-layer $\delta$), multiplied by the local
+sensitivity of $z_k$ to $\mathbf C_k$ or $s_k$ -- here coming from differentiating the Gaussian
+itself, instead of a transfer-function derivative $f'(\mathrm{net})$.
+
+\end{document}
