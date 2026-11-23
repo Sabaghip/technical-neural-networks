@@ -1,0 +1,178 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\begin{center}
+{\large Technical Neural Networks Assignment Sheet 5}\\[4pt]
+{\bfseries Names: Mohamadhosein Sabaghi (50547423)}
+\end{center}
+
+\section*{Assignment 21}
+
+\textbf{Idea.} Plain gradient descent uses the gradient's \emph{magnitude} directly as (part of) the
+step size, $\Delta w_{ij}=-\eta\,\partial E/\partial w_{ij}$. But that magnitude is unreliable: with
+saturating transfer functions (tanh, logistic) the gradient can be tiny in flat regions and large
+elsewhere, so a single global $\eta$ is either too small for the flat parts or too large for the steep
+parts. Resilient Propagation (RPROP) fixes this by using \emph{only the sign} of the gradient to decide
+the update direction, and tracking a separate, adaptively-sized step $\Delta_{ij}$ for every single
+weight, based purely on whether that weight's gradient kept pointing the same way or flipped.
+
+\textbf{Step-size adaptation.} Let $g_{ij}(t):=\partial\,{}^pE/\partial w_{ij}$ at step $t$. Compare its
+sign to the previous step:
+\[
+  \Delta_{ij}(t) =
+  \begin{cases}
+    \min(\eta^{+}\Delta_{ij}(t-1),\ \Delta_{\max}) & \text{if } g_{ij}(t-1)\,g_{ij}(t) > 0 \\
+    \max(\eta^{-}\Delta_{ij}(t-1),\ \Delta_{\min}) & \text{if } g_{ij}(t-1)\,g_{ij}(t) < 0 \\
+    \Delta_{ij}(t-1) & \text{if } g_{ij}(t-1)\,g_{ij}(t) = 0
+  \end{cases}
+\]
+with $0<\eta^{-}<1<\eta^{+}$ (typically $\eta^+=1.2,\ \eta^-=0.5$).
+
+\textbf{Weight update.} The step size $\Delta_{ij}$, not the gradient, determines how far to move:
+\[
+  \Delta w_{ij}(t) = -\operatorname{sign}\!\big(g_{ij}(t)\big)\cdot \Delta_{ij}(t), \qquad
+  w_{ij}(t+1) = w_{ij}(t) + \Delta w_{ij}(t)
+\]
+
+\textbf{What each term means / motivation.}
+\begin{itemize}
+  \item $g_{ij}(t-1)\,g_{ij}(t)>0$: the gradient kept the same sign two steps in a row, i.e.\ we're
+  still heading downhill in the same direction (e.g.\ on a long shallow slope) -- so $\Delta_{ij}$ is
+  \emph{increased} by the acceleration factor $\eta^+$ to cross such regions faster.
+  \item $g_{ij}(t-1)\,g_{ij}(t)<0$: the sign flipped, meaning the previous step overshot a local
+  minimum along this weight's direction -- so $\Delta_{ij}$ is \emph{decreased} by $\eta^-$ to approach
+  it more carefully and stop oscillating.
+  \item $\Delta_{\min},\Delta_{\max}$: safety bounds so the per-weight step size can never shrink to
+  exactly zero (permanently stuck) or grow without bound (diverging).
+  \item Using $\operatorname{sign}(g_{ij})$ instead of $g_{ij}$ itself for the update direction is what
+  decouples the step size from the gradient's magnitude, which is the whole point: a weight with a
+  tiny but persistently-signed gradient still gets to move by a healthy, self-accelerating amount.
+\end{itemize}
+
+\textbf{Reference:} M.\ Riedmiller and H.\ Braun, \emph{``A direct adaptive method for faster
+backpropagation learning: the RPROP algorithm''}, Proceedings of the IEEE International Conference on
+Neural Networks (ICNN), 1993, pp.\ 586--591.
+
+\section*{Assignment 22}
+
+\textbf{Single-step (online) learning.} One pattern $p$ is presented, its $\Delta w_{ij}$ computed, and
+the weights updated \emph{immediately}, before the next pattern is shown.
+
+\textbf{Cumulative (batch) learning.} All $P$ patterns are presented first, their weight changes
+${}^p\Delta w_{ij}$ accumulated, $\Delta w_{ij}=\sum_{p=1}^P {}^p\Delta w_{ij}$, and only then applied
+once -- exact gradient descent on the total error $G=\sum_p {}^pE$.
+
+\begin{itemize}
+  \item \textbf{Single-step:} \emph{+} many more updates per epoch, often converges faster in
+  wall-clock time; the noise from updating on one pattern at a time can help escape shallow local
+  minima; no extra memory needed to accumulate $\Delta w$; works for streaming data. \emph{--} the
+  update direction is noisy and zig-zags (it follows one pattern's gradient, not $G$'s true gradient);
+  the result depends on the order patterns are presented in.
+  \item \textbf{Cumulative:} \emph{+} follows the true gradient of $G$, so convergence is smooth and
+  order-independent; easier to analyze with standard gradient-descent theory. \emph{--} needs a full
+  pass over all patterns before a single update (slower per update, more memory); with no stochastic
+  noise it's more likely to get stuck exactly in a local minimum or saddle point; not usable in an
+  online/streaming setting where the full pattern set isn't available upfront.
+\end{itemize}
+
+\section*{Assignment 23}
+
+A schedule like $\eta(t)=\eta_0/t$ shrinks very quickly and keeps shrinking forever, regardless of how
+close training actually is to a good solution: after only a few steps $\eta$ is already a small fraction
+of $\eta_0$, no matter what the error surface still looks like at that point. The problem is that this
+decay is tied purely to elapsed time $t$, not to the network's actual progress. If the weights still
+happen to be somewhere in the middle of a large or complicated error surface once $\eta$ has already
+shrunk to a tiny value, the steps become too small to make further real progress, but training hasn't
+reached a minimum yet -- it just grinds to a halt, stuck exactly where the clock happened to catch up
+with it. The safer practical alternative is to reduce $\eta$ by a fixed factor (e.g.\ $\eta\leftarrow
+0.1\,\eta$) only at specific, deliberately chosen moments, rather than continuously via a fixed formula
+in $t$. (This is also why RPROP from assignment 21 is a better idea: its step size only shrinks when
+there is actual evidence of overshooting -- a gradient sign flip -- not just because time has passed.)
+
+\section*{Assignment 24}
+
+Identity transfer function means every layer's output equals its net input: $f(z)=z$. Write the MLP in
+vector-matrix form, omitting the BIAS as permitted.
+
+\textbf{3 layers (one hidden layer).} Input $\underline X\in\mathbb R^N$, weight matrix
+$\underline U$ ($H\times N$) into the hidden layer, weight matrix $\underline V$ ($M\times H$) into the
+output layer:
+\[
+  \underline{\mathrm{out}}_{\text{hidden}} = \underline U\,\underline X, \qquad
+  \underline Y = \underline V\,\underline{\mathrm{out}}_{\text{hidden}} = \underline V\,(\underline U\,\underline X) = (\underline V\,\underline U)\,\underline X
+\]
+Matrix multiplication is associative, so $\underline V\,\underline U$ is just one more $M\times N$
+matrix -- call it $\underline W:=\underline V\,\underline U$. Then
+\[
+  \boxed{\underline Y = \underline W\,\underline X}
+\]
+which is \emph{exactly} the mapping of a 2-layer Perceptron with weight matrix $\underline W$ and
+identity transfer function: the 3-layer MLP and this Perceptron compute the identical function
+$\underline Y(\underline X)$ for every input, with $\underline W=\underline V\,\underline U$.
+
+\textbf{More than 3 layers (induction).} For $L$ weight matrices $\underline{W}_1,\dots,\underline{W}_L$
+(so $L+1$ layers total),
+\[
+  \underline Y = \underline{W}_L\big(\underline{W}_{L-1}(\cdots(\underline{W}_1\underline X)\cdots)\big)
+  = (\underline{W}_L\,\underline{W}_{L-1}\cdots\underline{W}_1)\,\underline X
+\]
+again by associativity -- any chain of matrix multiplications collapses into a single matrix
+$\underline W := \underline{W}_L\cdots\underline{W}_1$, so $\underline Y=\underline W\underline X$ once
+more. (Formally: assume an MLP with $L$ weight matrices collapses to a single $\underline W_L'$; adding
+one more layer with matrix $\underline W_{L+1}$ gives
+$\underline Y=\underline W_{L+1}(\underline W_L'\underline X)=(\underline W_{L+1}\underline W_L')\underline X$,
+still a single matrix -- so the claim holds for every depth by induction.)
+
+So no matter how many layers an all-identity MLP has, it computes a purely linear map
+$\underline X\mapsto\underline W\underline X$, exactly reproducible by a single 2-layer Perceptron --
+depth adds no extra expressive power without a nonlinear transfer function. $\blacksquare$
+
+\section*{Assignment 25}
+
+\textbf{Overfitting} (``learning by heart'') happens when a network ends up fitting the specific noise
+and idiosyncrasies of the training patterns instead of the underlying regularity behind them -- it then
+performs very well on the training set but poorly on new, unseen data (checked against a validation set
+not used for training). It tends to occur when the network has too many free parameters (weights)
+relative to how much training data and how simple the true underlying task actually is.
+
+\textbf{Strategy to avoid it: weight decay.} Extend the error function with a term that penalizes large
+weights,
+\[
+  {}^pE^{**} = {}^pE + \tfrac12\beta\sum_{i,j}w_{ij}^2,
+\]
+exactly the one derived in assignment 19 (sheet 3), giving the update
+$\Delta w_{ij}=\eta\,\delta_j\,\mathrm{out}_i-\eta\beta w_{ij}$. The extra $-\eta\beta w_{ij}$ term
+continuously pulls every weight toward $0$; weights that are driven to (near) zero can no longer
+contribute to memorizing individual training patterns, which reduces the network's effective capacity
+and pushes it toward the smoother, simpler mapping that generalizes better.
+
+\section*{Assignment 26}
+
+\textbf{AI use:} I used Claude (Anthropic) to work through this part, as the sheet requires. I gave it
+the assignment text and asked for an original example illustrating generalization in neural networks.
+The example below was usable as given, so I didn't need to re-prompt or discard anything.
+
+\textbf{Generalization} is a network's ability to produce good outputs for inputs it was \emph{not}
+trained on, by having learned the true underlying regularity rather than memorizing the training set.
+
+\textbf{Example.} Train a small MLP to decide whether a 2D point $(x_1,x_2)$ lies inside or outside a
+circle of radius $r$ centered at the origin, using only $20$ labeled training points scattered near the
+boundary. A network with too few hidden neurons might draw a decision boundary that is too simple (e.g.\
+close to a straight line) and misclassify many points even in training -- underfitting. A network with
+far too many hidden neurons might instead draw a highly wiggly boundary that perfectly separates exactly
+those $20$ training points, including the noise in their exact positions -- overfitting: on the training
+set the error is $0$, but a new test point sitting right next to a training point can end up on the
+wrong side of one of those wiggles. A network with an appropriately sized hidden layer instead settles
+on a boundary close to the true circle, correctly classifying new, previously unseen $(x_1,x_2)$ points
+near the boundary that it never saw during training -- that is good generalization.
+
+\end{document}

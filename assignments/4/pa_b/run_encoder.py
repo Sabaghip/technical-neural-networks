@@ -25,7 +25,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 (registers 3D projection)
+from mpl_toolkits.mplot3d import Axes3D
 
 from mlp import MLP
 
@@ -44,8 +44,8 @@ def main():
     outdir.mkdir(parents=True, exist_ok=True)
 
     N, H = args.n, args.h
-    X = np.eye(N)   # N one-hot input patterns
-    Y = X.copy()    # autoencoder: teacher = input
+    X = np.eye(N) 
+    Y = X.copy()
 
     net = MLP([N, H, N], ["logistic", "logistic"], args.lr, args.seed)
 
@@ -69,7 +69,6 @@ def main():
     plt.savefig(outdir / "learning_curve.png", dpi=130)
     plt.close()
 
-    # final forward pass on every pattern (no further weight changes)
     hidden_states = np.zeros((N, H))
     outputs = np.zeros((N, N))
     lines = [f"{N}-{H}-{N} encoder-decoder after {args.steps} training steps", ""]
@@ -96,7 +95,6 @@ def main():
         header=f"hidden-neuron activations ({H} columns) for each of the {N} patterns (rows)",
     )
 
-    # depict input vs. reconstructed output
     fig, axes = plt.subplots(1, 2, figsize=(9, 4.5))
     axes[0].imshow(X, cmap="gray_r", vmin=0, vmax=1)
     axes[0].set_title("input")
@@ -110,7 +108,6 @@ def main():
     fig.savefig(outdir / "io_heatmap.png", dpi=130)
     plt.close(fig)
 
-    # visualize the hidden-layer states
     if H == 2:
         plt.figure(figsize=(5.5, 5.5))
         plt.scatter(hidden_states[:, 0], hidden_states[:, 1])

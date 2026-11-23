@@ -41,6 +41,9 @@ assignments/
       mlp.py             # same MLP implementation, reused unmodified from PA-A
       run_encoder.py     # trains/evaluates an N-H-N encoder-decoder task
       8-3-8/ 8-2-8/ 64-6-64/   # one folder per task, with its own results + report
+  5/
+    solution.tex
+    solution.pdf
 README.md
 .gitignore
 ```
@@ -58,6 +61,7 @@ PA-A's `data/`) are included, since they're the input data needed to reproduce t
 | [02](assignments/2) | The δ-rule · counting weights (incl. BIAS) across multi-layer MLP topologies · formal analytical proof that XOR is not linearly separable · deriving the Backpropagation learning rule for a custom error function · derivatives of the logistic and tanh activation functions · **PA-A:** a from-scratch Python/numpy MLP trained with Backpropagation of Error, run on all 6 officially provided datasets (XOR variants, a 4-in/2-out logic function, a 2D regression task, and two more Boolean-style functions) | ✅ done |
 | [03](assignments/3) | Deriving Backpropagation's δ for both output and hidden layers from a custom (4th-power) error function · a fully worked numeric Backpropagation weight-update calculation · plotting the global error surface of a tanh Perceptron attempting XOR (with a ReLU/0-1 variant) · single-step vs. cumulative (batch) learning compared | ✅ done |
 | [04](assignments/4) | Typical single-step learning curve · the effect of linear vs. logarithmic axis scaling on reading a learning curve · why MLPs can solve the 8-3-8 and 8-2-8 encoder-decoder tasks but not 8-1-8 · deriving the weight-decay (L2-regularized) learning rule · deriving the input-space gradient of the error for gradient-based input optimization · **PA-B:** trained the same from-scratch MLP on 8-3-8, 8-2-8 and 64-6-64 encoder-decoder tasks, empirically confirming the binary-code / convex-polygon arguments from assignment 18 | ✅ done |
+| [05](assignments/5) | Explaining Resilient Propagation (RPROP) with literature citation · single-step vs. cumulative learning (revisited) · why a 1/t learning-rate schedule can stall training · proving an all-identity MLP of any depth collapses to a single 2-layer Perceptron (vector-matrix proof) · overfitting & weight decay · generalization with an original example | ✅ done |
 
 *(This table — and the skills list below — is updated as each new assignment is completed.)*
 
@@ -98,6 +102,12 @@ PA-A's `data/`) are included, since they're the input data needed to reproduce t
 - Training autoencoder-style MLPs end to end and diagnosing real optimization behavior
   (slow convergence on tight packing problems, saturation/dead-unit traps under plain
   online SGD, the effect of random seed and training length)
+- Explaining adaptive learning-rate methods (RPROP) from the primary literature, with
+  proper scientific citation
+- Formal proof (vector-matrix, by induction) that a purely linear MLP of any depth is
+  equivalent to a single-layer Perceptron
+- Overfitting, generalization and weight decay as practical training concerns, illustrated
+  with an original example
 
 ## Tools
 
